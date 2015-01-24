@@ -46,3 +46,7 @@ body > header a:last-child:after {
   display: block;
   font-size: 40px;
 }
+
+#show-full {
+  text-align: center;
+}

@@ -11,7 +11,6 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="foundation.css">
 </head>
@@ -22,107 +21,84 @@
         <h1><a href="#">Hot Date!</a></h1>
       </li>
     </ul>
-
     <section class="top-bar-section">
       <ul class="left">
-        <li class="active"><a href="#login">Login</a></li>
-        <li><a href="#signup">Signup</a></li>
-        <li><a href="#list">List my dates!</a></li>
+        <li class="active"><a id="loginTop" href="#login">Login</a></li>
+        <li><a id="signupTop" href="#signup">Signup</a></li>
       </ul>
     </section>
   </nav>
-
     <div id="login">
         <div class="row">
           <div class="column small-offset-1 small-10 large-offset-2 large-8">
             <h1>Login</h1>
-            <form method="post" action="http://localhost:8888/login" class="small-8">
-              <input class="error" name="login" type="text" placeholder="enter your login">
-              <small class="error">Something went wrong!</small>
-              <input name="password" type="password" placeholder="enter your password">
-              <input type="submit" value="Log me in" class="button">
-              <a href="/signup" class="button secondary">Sign me up</a>
+            <form class="small-8">
+              <input id="signinLogin" type="text" placeholder="enter your login">
+              <input id="signinPassword" type="password" placeholder="enter your password">
+              <input id="signinSubmit" type="submit" value="Log me in" class="button">
+              <a id="signinSecondary" href="#signup" class="button secondary">Sign me up</a>
             </form>
           </div>
         </div>
+      <hr>
     </div>
-    <hr>
     <div id="signup">
       <div class="row">
         <div class="column small-offset-1 small-10 large-offset-2 large-8">
           <h1>Signup</h1>
-          <form method="post" action="http://localhost:8888/signup" class="small-8">
-            <input class="error" name="login" type="text" placeholder="enter your login">
-            <small class="error">Something went wrong!</small>
-            <input name="email" type="email" placeholder="enter your email">
-            <input name="password" type="password" placeholder="enter your new password">
-            <input name="passwordConfirmation" type="password" placeholder="retype it">
-            <input type="submit" value="Let me in!" class="button">
-            <a href="/login" class="button secondary">Nah, I do have an account already.</a>
+          <form class="small-8">
+            <input id="signupLogin" type="text" placeholder="enter your login">
+            <input id="signupPassword" type="password" placeholder="enter your new password">
+            <input id="signupPasswordConfirmation" type="password" placeholder="retype it">
+            <input id="signupSubmit" type="submit" value="Let me in!" class="button">
+            <a id="signupSecondary" href="#login" class="button secondary">Nah, I do have an account already.</a>
           </form>
         </div>
       </div>
+      <hr>
     </div>
-    <hr>
     <div id="list">
-      <ul class="small-block-grid-3">
-      <li>
-        <div class="person male">
-          <a class='url n' href="#show-full"><i>Mr.</i> Know-it-all, I</a>
-        </div>
-      </li>
-      <li>
-        <div class="person female">
-          <a class='url n' href="#show-full"><i>Mrs.</i> Did-it, Been-there</a>
-        </div>
-      </li>
-      <li>
-        <div class="person male">
-          <a class='url n' href="#show-full"><i>Mr.</i> Real Fun.</a>
-        </div>
-      </li>
-      </ul>
+      <ul class="small-block-grid-3"></ul>
+      <hr>
     </div>
-    <hr>
-    <div id="show-full">
-      <div>
-      <img src="ajax-loader.gif" alt="AJAX loader animation">
-      <h2>Mr. Know-it-all, I</h2>
-      <section>
-        <h3>Location</h3>
-        Street: 1212 mullholland drive, hollywood, LA, 12312
-      </section>
-      <section>
-        <h3>Connect with him!</h3>
-        <a href="mailto:knowitall@whitehouse.gov">knowitall@whitehouse.gov</a>
-
-        <br/>
-        <a href="tel:38(098)#102">38(098)9991613</a>
-      </section>
-      </div>
-    </div>
+    <div id="show-full"></div>
     <!--[if lt IE 7]><script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script><script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script><![endif]-->
-   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+   <script src="jquery-1.11.2.min.js"></script>
+   <script src="handlebars-v2.0.0.js"></script>
+   <script src="script.js"></script>
+   <script id="entry-template" type="text/x-handlebars-template">
+     <li>
+       <div class="person {{user.gender}}">
+         <a class="url" id="{{id}}" href="#login"><i>{{user.name.title}}</i> {{user.name.first}} {{user.name.last}}</a>
+       </div>
+     </li>
+   </script>
+   <script id="error-template" type="text/x-handlebars-template">
+     <small class="error">{{error}}!</small>
+   </script>
+   <script id="show-full-template" type="text/x-handlebars-template">
+     <div id="show-full-block">
+       <h2>{{user.name.title}} {{user.name.first}} {{user.name.last}}</h2>
+       <section>
+         <h3>Location</h3>
+         Street: {{user.location.street}}, {{user.location.city}}, {{user.location.state}}, {{user.location.zip}}
+       </section>
+       <section>
+         <h3>Connect with {{user.name.first}}!</h3>
+         <a href="mailto:{{user.email}}">E-mail: {{user.email}}</a>
+         <br/>
+         <a href="tel:{{user.cell}}">Cell: {{user.cell}}</a>
+         <br/>
+         <a href="tel:{{user.phone}}">Phone: {{user.phone}}</a>
+       </section>
+     </div>
+   </script>
   <script>
-    'use strict';
-
   </script>
   </body>
 </html>
 
-<!-- <div id="your section">
-      <header>
-        <a href="logout">Log out</a>
-      </header>
-      <div id="main" role="main">
-
-      </div>
-      <footer>
-
-      </footer>
-    </div> -->
-
-
+<!--<img src="ajax-loader.gif" alt="AJAX loader animation">-->
 
 
 
