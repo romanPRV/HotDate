@@ -20,6 +20,8 @@
         $('#list').show();
     }).on('click', '#signupSubmit', function(event) {
         event.preventDefault();
+        $('<img src="ajax-loader.gif" alt="AJAX loader animation" class="centered-img">' +
+        '<div class="centered-div"></div>').appendTo('body');
         $.post('http://api.sudodoki.name:8888/signup',
             {data: {login: $('#signupLogin').val(),
                 password: $('#signupPassword').val(),
@@ -52,9 +54,12 @@
                             .after(template({error: obj.login}));
                     }
                 });
+                $('.centered-img, .centered-div').detach();
             });
     }).on('click', '#signinSubmit', function(event) {
         event.preventDefault();
+        $('<img src="ajax-loader.gif" alt="AJAX loader animation" class="centered-img">' +
+        '<div class="centered-div"></div>').appendTo('body');
         $.post('http://api.sudodoki.name:8888/login',
             {data: {login: $('#signinLogin').val(),
                 password: $('#signinPassword').val()}
@@ -75,6 +80,7 @@
                 var template = Handlebars.compile($('#error-template').html());
                 $('#signinLogin').toggleClass('error')
                     .after(template($.parseJSON(response.responseText)));
+                $('.centered-img, .centered-div').detach();
             });
     });
 
@@ -91,8 +97,11 @@
             $('#signupTop, #loginTop, #listTop').parent().removeAttr('class');
             $('#listTop').parent().addClass('active');
         });
+        $('.centered-img, .centered-div').detach();
         $('body').on('click', '.url', function(event) {
             event.preventDefault();
+            $('<img src="ajax-loader.gif" alt="AJAX loader animation" class="centered-img">' +
+            '<div class="centered-div"></div>').appendTo('body');
             $('#login, #signup, #list').hide();
             $('#show-full').show();
             $.ajax({
@@ -106,6 +115,7 @@
                 if ($('#show-full-block').length)  $('#show-full-block').remove();
                 var template = Handlebars.compile($('#show-full-template').html());
                 $('#show-full').html(template($.parseJSON(data)[0]));
+                $('.centered-img, .centered-div').detach();
             });
         });
     }

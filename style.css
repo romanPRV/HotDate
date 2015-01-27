@@ -50,3 +50,22 @@ body > header a:last-child:after {
 #show-full {
   text-align: center;
 }
+
+.centered-img {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin: -50px 0 0 -100px;
+  z-index: 10;
+}
+
+.centered-div {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  opacity: 0.8;
+  z-index: 9;
+}
