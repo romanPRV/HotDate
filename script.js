@@ -3,25 +3,34 @@
 
     $('#signup, #list, #show-full').hide();
 
-    $('body').on('click', '#signinSecondary, #signupTop', function() {
-        $('#signupTop, #loginTop, #listTop').parent().removeAttr('class');
-        $('#signupTop').parent().addClass('active');
-        $('#login, #list, #show-full').hide();
-        $('#signup').show();
-    }).on('click', '#signupSecondary, #loginTop', function() {
-        $('#signupTop, #loginTop, #listTop').parent().removeAttr('class');
-        $('#loginTop').parent().addClass('active');
-        $('#signup, #list, #show-full').hide();
-        $('#login').show();
-    }).on('click', '#listTop', function() {
-        $('#signupTop, #loginTop, #listTop').parent().removeAttr('class');
-        $('#listTop').parent().addClass('active');
-        $('#login, #signup, #show-full').hide();
-        $('#list').show();
-    }).on('click', '#signupSubmit', function(event) {
+    window.onpopstate = function() {
+        if (document.location.toString().split('/')[4] === 'index.html#login') {
+            $('#signupTop, #loginTop, #listTop').parent().removeAttr('class');
+            $('#loginTop').parent().addClass('active');
+            $('#signup, #list, #show-full').hide();
+            $('#login').show();
+        } else if (document.location.toString().split('/')[4] === 'index.html#signup') {
+            $('#signupTop, #loginTop, #listTop').parent().removeAttr('class');
+            $('#signupTop').parent().addClass('active');
+            $('#login, #list, #show-full').hide();
+            $('#signup').show();
+        } else if (document.location.toString().split('/')[4] === 'index.html#list') {
+            if ($('.url').length) {
+                $('#signupTop, #loginTop, #listTop').parent().removeAttr('class');
+                $('#listTop').parent().addClass('active');
+                $('#login, #signup, #show-full').hide();
+                $('#list').show();
+            } else  window.history.pushState({}, '', '#login');
+        } else if (document.location.toString().split('/')[4] === 'index.html') {
+            window.location.reload();
+        }
+    };
+
+    $('body').on('click', '#signupSubmit', function(event) {
         event.preventDefault();
+        window.history.pushState({}, '', '#list');
         $('<img src="ajax-loader.gif" alt="AJAX loader animation" class="centered-img">' +
-        '<div class="centered-div"></div>').appendTo('body');
+          '<div class="centered-div"></div>').appendTo('body');
         $.post('http://api.sudodoki.name:8888/signup',
             {data: {login: $('#signupLogin').val(),
                 password: $('#signupPassword').val(),
@@ -58,8 +67,9 @@
             });
     }).on('click', '#signinSubmit', function(event) {
         event.preventDefault();
+        window.history.pushState({}, '', '#list');
         $('<img src="ajax-loader.gif" alt="AJAX loader animation" class="centered-img">' +
-        '<div class="centered-div"></div>').appendTo('body');
+          '<div class="centered-div"></div>').appendTo('body');
         $.post('http://api.sudodoki.name:8888/login',
             {data: {login: $('#signinLogin').val(),
                 password: $('#signinPassword').val()}
@@ -85,8 +95,10 @@
     });
 
     function showList(token) {
-        $('#signupTop').parent().after('<li><a id="listTop" href="#list">List my dates!</a></li>' +
-                                        '<li><a href="">Logout</a></li>');
+        if (!$('#listTop').length) {
+            $('#signupTop').parent().after('<li><a id="listTop" href="#list">List my dates!</a></li>' +
+                                           '<li><a href="">Logout</a></li>');
+        }
         $.get('http://api.sudodoki.name:8888/users', function(data) {
             var template = Handlebars.compile($('#entry-template').html());
             var html = '';
